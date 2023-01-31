@@ -6,7 +6,11 @@ int main()
 {
     setlocale(LC_ALL, "Russian");
     srand(time(NULL));
-    int bingo[5][5], game = 0, razd = 0, bufrazd[75], var, oshib = 0, bv1, bv2;
+    int bingo[5][5], game = 0, razd = 0, bufrazd[75], var, oshib = 0, bv1, bv2, bufbingo[76], bufzap;
+    for (int i = 0; i < 76; i++)
+    {
+        bufbingo[i] = i;
+    }
     for (int i = 0; i < 5; i++)
     {
         for (int j = 0; j < 5; j++)
@@ -19,64 +23,48 @@ int main()
             {
                 if (j == 0)
                 {
-                    bingo[i][j] = rand() % 15 + 1;
+                    do
+                    {
+                        bufzap = rand() % 15 + 1;
+                    } while (bufbingo[bufzap] == 0);
+                    bingo[i][0] = bufbingo[bufzap];
+                    bufbingo[bufzap] = 0;
                 }
                 if (j == 1)
                 {
-                    bingo[i][j] = rand() % (30 - 16) + 16;
+                    do
+                    {
+                        bufzap = rand() % (31 - 16) + 16;
+                    } while (bufbingo[bufzap] == 0);
+                    bingo[i][1] = bufbingo[bufzap];
+                    bufbingo[bufzap] = 0;
                 }
                 if (j == 2)
                 {
-                    bingo[i][j] = rand() % (45 - 31) + 31;
+                    do
+                    {
+                        bufzap = rand() % (46 - 31) + 31;
+                    } while (bufbingo[bufzap] == 0);
+                    bingo[i][2] = bufbingo[bufzap];
+                    bufbingo[bufzap] = 0;
                 }
                 if (j == 3)
                 {
-                    bingo[i][j] = rand() % (60 - 46) + 46;
-
+                    do
+                    {
+                        bufzap = rand() % (61 - 46) + 46;
+                    } while (bufbingo[bufzap] == 0);
+                    bingo[i][3] = bufbingo[bufzap];
+                    bufbingo[bufzap] = 0;
                 }
                 if (j == 4)
                 {
-                    bingo[i][j] = rand() % (75 - 61) + 61;
-                }
-            }
-            for (int p = 0; p < 100000; p++)
-            {
-                for (int i1 = 0; i1 < 5; i1++)
-                {
-                    for (int j1 = 0; j1 < 5; j1++)
+                    do
                     {
-                        if ((bingo[i][j] == bingo[i1][j1]) and ((i != i1) or (j != j1)) and ((i != 2) and (j != 2) and (i1 != 2) and (j1 != 2)))
-                        {
-                            do
-                            {
-                                if (j == 0)
-                                {
-                                    bingo[i][0] = rand() % 15 + 1;
-                                }
-
-                                if (j == 1)
-                                {
-                                    bingo[i][1] = rand() % (30 - 16) + 16;
-                                }
-
-                                if (j == 2)
-                                {
-                                    bingo[i][2] = rand() % (45 - 31) + 31;
-                                }
-
-                                if (j == 3)
-                                {
-                                    bingo[i][3] = rand() % (60 - 46) + 46;
-                                }
-
-                                if (j == 4)
-                                {
-                                    bingo[i][4] = rand() % (75 - 61) + 61;
-                                } while (bingo[i][j] == bingo[i1][j1]);
-
-                            } while ((bingo[i][j] == bingo[i1][j1]) and ((i != i1) or (j != j1)) and ((i != 2) and (j != 2) and (i1 != 2) and (j1 != 2)));
-                        }
-                    }
+                        bufzap = rand() % (76 - 61) + 61;
+                    } while (bufbingo[bufzap] == 0);
+                    bingo[i][4] = bufbingo[bufzap];
+                    bufbingo[bufzap] = 0;
                 }
             }
         }
@@ -113,13 +101,13 @@ int main()
         bufrazd[razd] = rand() % 75 + 1;
         for (int p = 0; p < 100; p++)
         {
-            for (int i = 0; i < 75; i++)
+            for (int i = 0; i < 90; i++)
             {
                 if ((bufrazd[razd] == bufrazd[i]) and (razd != i))
                 {
                     do
                     {
-                        bufrazd[razd] = rand() % 75 + 1;
+                        bufrazd[razd] = rand() % 90 + 1;
                     } while ((bufrazd[razd] == bufrazd[i]) and (razd != i));
                 }
             }
@@ -156,7 +144,7 @@ int main()
             }
             if (bv1 == 25)
             {
-                oshib = oshib + 1;
+                oshib++;
                 cout << "Вы ошиблись, этого числа тут нету" << endl;
             }
         }
@@ -169,7 +157,7 @@ int main()
                 {
                     if (bufrazd[razd] == bingo[i][j])
                     {
-                        oshib = oshib + 1;
+                        oshib++;
                         cout << "Вы ошиблись, это число присутствует в билете" << endl;
                     }
                     else
@@ -187,23 +175,23 @@ int main()
         {
             for (int j = 0; j < 5; j++)
             {
-                if ((bingo[i][0] == 0
+                if (   (bingo[i][0] == 0
                     and bingo[i][1] == 0
                     and bingo[i][2] == 0
                     and bingo[i][3] == 0
                     and bingo[i][4] == 0)
                     or
-                    (bingo[0][j] == 0
-                        and bingo[1][j] == 0
-                        and bingo[2][j] == 0
-                        and bingo[3][j] == 0
-                        and bingo[4][j] == 0)
+                       (bingo[0][j] == 0
+                    and bingo[1][j] == 0
+                    and bingo[2][j] == 0
+                    and bingo[3][j] == 0
+                    and bingo[4][j] == 0)
                     or
-                    (bingo[0][0] == 0
-                        and bingo[1][1] == 0
-                        and bingo[2][2] == 0
-                        and bingo[3][3] == 0
-                        and bingo[4][4] == 0)
+                       (bingo[0][0] == 0
+                    and bingo[1][1] == 0
+                    and bingo[2][2] == 0
+                    and bingo[3][3] == 0
+                    and bingo[4][4] == 0)
                     )
                 {
                     game++;
